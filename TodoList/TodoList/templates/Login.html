@@ -1,0 +1,43 @@
+{% extends  "Base.html" %}
+
+{% block content %}
+    <div class="container">
+        <form class="sign-in-form" method="POST" action="">
+            {{ form.hidden_tag() }}
+            <h2>Login In</h2>
+            <div class="input-field">
+                <!-- <input type="email" id="email" required>
+                <label for="email">Email</label> -->
+                {% if form.email.errors %}
+                    {{ form.email(class="error") }}
+                    {% for error in form.email.errors %}
+                        <span class="ErrorText"> {{error}} </span>
+                    {% endfor %}
+                {% else %}
+                    {{ form.email }}
+                {% endif %}
+                {{ form.email.label }}
+            </div>
+            <div class="input-field">
+                <!-- <input type="password" id="password" required>
+                <label for="password">Password</label> -->
+                {% if form.password.errors %}
+                    {{ form.password(class="error") }}
+                    {% for error in form.password.errors %}
+                        <span class="ErrorText"> {{error}} </span>
+                    {% endfor %}
+                {% else %}
+                    {{ form.password }}
+                {% endif %}
+                {{ form.password.label }}
+            </div>
+            <!-- <button type="submit" class="btn">Login In</button> -->
+            {{ form.submit(class="btn") }}
+            <div class="links">
+                <a href="#">Forgot Password?</a>
+                <a href="{{ url_for('Sign') }}">Create an Account</a>
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,737 @@
+
+body{
+    background-color: #e8e8e8;
+    margin: 0;
+    /* overflow-x: hidden; */
+    font-family: cursive;
+    max-width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+.NAV{
+    display: flex;
+    flex-wrap: wrap;
+    /* width: 100vw; */
+    width: calc(100vw - 32px);
+    background-color: aliceblue;
+    padding: 1rem;
+    margin: 0;
+    /* position: fixed; */
+}
+
+.NAV main{
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    justify-content: space-between;
+}
+
+.NAV .Logo h2{
+    margin: 0;
+    width: 100%;
+    margin-left: 1rem;
+    font-size: 30px;
+}
+
+.NAV .Logo h2 a {
+    text-decoration: none;
+    color: #000;
+}
+
+.NAV .LIContainer{
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 10%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 1rem;
+}
+
+.NAV .LIContainer a{
+    text-decoration: none;
+    font-size: 20px;
+    color: #123;
+    transition: all .3s ease;
+    margin: 2px;
+    display: block;
+    position: relative;
+    padding: 5px;
+}
+
+.NAV .LIContainer a::before{
+    content: "";
+    background-color: royalblue;
+    width: 0;
+    height: 2px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    transition: all .3s ease-in;
+}
+
+.NAV .LIContainer a:hover::before{
+    width: 95%;
+}
+
+.NAV .logout a{
+    color: #ec5c43;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+.NAV .logout a::before{
+    background-color: #ec5c43;
+}
+
+.MainContent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* width: 100vw; */
+    width: calc(100vw - 32px);
+    padding: 1rem;
+    margin: 0;
+    transition: all .2s ease-in;
+}
+
+.AddToDo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+    margin: 0;
+}
+
+.AddToDoForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+    margin: 0;
+}
+
+.AddToDoForm legend{
+    margin-bottom: 1rem;
+    font-size: 25px;
+    font-weight: bold;
+    /* text-decoration: underline royalblue 3px; */
+}
+
+.AddForm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.AddInput{
+    outline: none;
+    border: 2px solid royalblue;
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: cursive;
+}
+
+.AddButton , .AddButton_Description{
+    background-color: green;
+    color: #e8e8e8;
+    border: 2px solid rgb(3, 87, 3);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all .3s ease-in;
+}
+
+.AddButton:hover , .AddButton_Description:hover{
+    scale: 1.1;
+}
+
+.AddButton_Description:has(::before:hover){
+    scale: 1;
+}
+
+.TodosContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem;
+}
+
+.TodoContainer{
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 5px 1rem;
+    border-radius: 15px;
+    transition: all .3s ease;
+    position: relative;
+    z-index: 15;
+}
+
+.TodoContainer:hover {
+    /* Add your desired hover effects here, for example: */
+    background-color: #f5f5f5; /* Light gray background */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.TodoContainer:hover .TodoDescription , .TodoContainer:has(.TodoDescription:hover){
+    /* Prevent hover effect propagation to the description */
+    pointer-events: none;
+    box-shadow: none;
+}
+
+.TodoContainer:has(.TodoDescription:hover){
+    background-color: #fff;
+}
+
+.TodoControl{
+    display: flex;
+    gap: 1rem;
+    position: relative;
+}
+
+.TodoTrash , .TodoTrue{
+    color: red;
+    background-color: #e8e8e8;
+    border: none;
+    padding: 8px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.TodoTrash:hover , .TodoTrue:hover{
+    scale: 1.1;
+}
+
+.TodoTrue{
+    color: green;
+}
+
+.TodoDescription{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 0px;
+    /* left: calc(100vw - 85%); */
+    background-color: #212121;
+    color: #e8e8e8;
+    border-radius: 18px;
+    padding: 10px;
+    /* z-index: 2; */
+    opacity: 0;
+    transition: all .3s ease-in;
+    margin-left: 2rem;
+    z-index: -1;
+}
+
+.TodoDescription:hover , .TodoDescription{
+    cursor: default;
+    -webkit-user-select: none;
+    user-select: none
+}
+
+.Todo_Container_Activate .TodoDescription{
+    opacity: 1;
+    bottom: -110px;
+}
+
+.Todo_Container_Activate{
+    margin-bottom: 5rem;
+}
+
+.Todo_Container_Activate .DescriptionViewer{
+    transform: rotate(180deg);
+}
+
+.DescriptionViewer {
+    background-color: royalblue;
+    color: #e8e8e8;
+    border: none;
+    border-radius: 22px;
+    font-size: 30px;
+    position: absolute;
+    bottom: -20px;
+    left: 45%;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.DescriptionViewer:hover{
+    /* background-color: rgb(3, 87, 3); */
+    box-shadow:  0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.AddButton_Description::before{
+    content: "Add Description";
+    position: absolute;
+    width: 180px;
+    color: #e8e8e8;
+    font-size: 18px;
+    font-weight: 550;
+    bottom: -50%;
+    transform: translate(-50% , 100%);
+    background-color: royalblue;
+    padding: 5px;
+    border-radius: 16px;
+    z-index: -1;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .3s ease;
+}
+
+.AddButton_Description:hover::before{
+    opacity: 1;
+}
+
+/* .tip{
+    position: absolute;
+} */
+
+/* Sign Page */
+
+/* .FormContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% - 32px);
+    height: 100%;
+    padding: 1rem;
+    margin-top: 10vw;
+}
+
+.Form , .Inputs{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    height: 100%;
+    padding: 2.5rem;
+}
+
+.Form legend{
+    font-size: 24px;
+}
+
+.Inputs{
+    border: 2px solid #123;
+}
+
+.Form input{
+    font-size: 22px;
+    border: 2px solid;
+    border-radius: 12px;
+} */
+
+/* General styles */
+/* body {
+    background: linear-gradient(135deg, #6b73ff, #000dff);
+    font-family: 'Arial', sans-serif;
+} */
+
+.container {
+    /* background: #fff; */
+    /* padding: 2rem; */
+    /* border-radius: 10px; */
+    /* box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); */
+    width: 100%;
+    max-width: fit-content;
+    min-width: 500px;
+    height: calc(100% - 74px - 64px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.sign-in-form , .AddDescription_Form form , .DeleteTodoModal form {
+    background: #fff;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+    margin: 0;
+    min-height: fit-content;
+    /* height: 350px; */
+    max-height: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+h2 {
+    /* margin: 0 0 1rem 0; */
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+}
+
+.input-field {
+    position: relative;
+    margin-bottom: 1.5rem;
+    width: 70%;
+}
+
+.input-field input , .AddDescription_Form .Add_Description_input{
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.input-field input:focus:not(.error) {
+    border-color: #6b73ff;
+}
+
+.input-field .error:focus , .input-field .error{
+    border-color: #ec5c43;
+    color: #ec5c43;
+}
+
+.input-field .ErrorText{
+    color: #ec5c43;
+}
+
+.input-field label {
+    position: absolute;
+    top: 60%;
+    left: 10px;
+    transform: translateY(-60%);
+    background: #fff;
+    padding: 0 5px;
+    color: #999;
+    transition: top 0.3s ease, font-size 0.3s ease;
+}
+
+.input-field input:focus + label,
+.input-field input:not(:placeholder-shown) + label {
+    top: -10px;
+    font-size: 15.5px;
+    color: #6b73ff;
+}
+
+.input-field .error:focus + label,
+.input-field .error:not(:placeholder-shown) + label {
+    top: -10px;
+    font-size: 15.5px;
+    color: #ec5c43;
+}
+
+.btn , .Add_Description_btn {
+    width: 100%;
+    padding: 0.75rem;
+    background: #6b73ff;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 0rem;
+    transition: background 0.3s ease;
+}
+
+.btn:hover , .Add_Description_btn:hover {
+    background:royalblue;
+}
+
+.links {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.links a {
+    color: #6b73ff;
+    text-decoration: none;
+    margin: 0 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.links a:hover {
+    color: #000dff;
+}
+
+.alert{
+    width: calc(100% - 32px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    padding: 5px;
+    margin-top: 1rem;
+    width: calc(100% - 10px);
+}
+
+.alert-success{
+    background: #0a9c2e;
+    color: #000;
+    font-size: 18px;
+}
+
+.alert-danger{
+    background: #ec5c43;
+    color: #000;
+    font-size: 18px;
+}
+
+.alert-info{
+    background: #00d9ff;
+    color: #000;
+    font-size: 18px;
+}
+
+.AddDescription_Form , .DeleteTodoModal{
+    position: absolute;
+    display: none;
+    justify-content: center;
+    width: 100%;
+    /* transform: translateY(-10%); */
+    z-index: 100;
+    top: 40%;
+    transition: all .4s ease-in;
+}
+
+.AddDescription_Form form , .AddDescription_Form_active form , .DeleteTodoModal form{
+    width: 600px;
+}
+
+.AddDescription_Form form legend , .DeleteTodoModal form legend{
+    position: relative;
+    width: 100%;
+    font-size: 20px;
+}
+
+.AddDescription_Form form legend i , .DeleteTodoModal form legend i{
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    font-size: 25px;
+    height: 50px;
+    color: red;
+    transition: all .3s ease;
+}
+
+.AddDescription_Form form legend i:hover , .DeleteTodoModal form legend i:hover{
+    color: #ac0112;
+}
+
+.AddDescription_Form .Add_Description_input , .AddDescription_Form_active .Add_Description_input{
+    width: 80%;
+    height: 40px;
+    font-weight: 550;
+    font-family: cursive;
+}
+
+.AddDescription_Form .Add_Description_input:focus , .AddDescription_Form_active .Add_Description_input:focus{
+    border-color: #6b73ff;
+}
+
+.AddDescription_Form_active , .DeleteTodoModal_active{
+    display: flex;
+}
+
+body:has(.AddDescription_Form_active) , body:has(.DeleteTodoModal_active){
+    .MainContent{
+        filter: blur(3px);
+        pointer-events: none;
+    }
+}
+
+.DeleteTodoModal{
+    align-items: center;
+}
+
+.DeleteTodoModal form .DeleteChoices{
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 5rem;
+}
+
+.DeleteTodoModal form .DeleteChoices .Delete_Todo_btn , 
+.DeleteTodoModal form .DeleteChoices .Delete_Todo_Back_Btn{
+    /* background-color: #e63718; */
+    background-color: #e7031a;
+    border: 2px solid #dc3545;
+    border-radius: 8px;
+    font-size: 22px;
+    font-family: cursive;
+    color: #fff;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.DeleteTodoModal form .DeleteChoices .Delete_Todo_btn:hover{
+    background-color: #ac0112;
+}
+
+.DeleteTodoModal form .DeleteChoices .Delete_Todo_Back_Btn{
+    background-color: #007bff;
+    border: 2px solid #007bff;
+    text-decoration: none;
+    padding: 2px;
+}
+
+.DeleteTodoModal form .DeleteChoices .Delete_Todo_Back_Btn:hover {
+    background-color: #015bbb;
+}
+
+.todo_achived{
+    background-color: #0a9c2e;
+    transition: all .3s ease;
+}
+
+.todo_achived:hover{
+    background-color: #058626;
+}
+
+.todo_achived .TodoName{
+    color: #fff;
+}
+
+.todo_achived .DeActive{
+    color: red;
+    border-radius: 8px;
+}
+
+/* // x-Small devices (landscape phones, 350px and up) */
+@media (min-width: 350px) { 
+    .NAV main{
+        width: 70%;
+    }
+
+    .MainContent{
+        width: calc(100vw - 64px);
+        padding-left: 2rem;
+        padding-right: 0;
+    }
+
+    .container {
+        min-width: 0;
+        width: 80%;
+    }
+
+    .sign-in-form{
+        gap: .5rem;
+    }
+
+    .sign-in-form .links{
+        display: flex;
+    }
+
+    .AddDescription_Form form, .AddDescription_Form_active form, .DeleteTodoModal form {
+        width: 75%;
+    }
+
+}
+
+/* // x-Small devices (landscape phones, 350px and up) */
+@media (min-width: 390px) { 
+    .NAV main{
+        width: 70%;
+    }
+
+    .MainContent{
+        width: calc(100vw - 64px);
+        padding-left: 2rem;
+        padding-right: 0;
+    }
+
+    .container {
+        min-width: 0;
+        width: 80%;
+    }
+
+    .sign-in-form{
+        gap: 1rem;
+    }
+
+    .sign-in-form .links{
+        display: flex;
+    }
+
+    .AddDescription_Form form, .AddDescription_Form_active form, .DeleteTodoModal form {
+        width: 75%;
+    }
+}
+
+/* // small devices (old_phones, 576px and up) */
+@media (min-width: 540px) { 
+    .NAV main{
+        width: 70%;
+    }
+
+    .MainContent{
+        width: calc(100vw - 64px);
+        padding-left: 2rem;
+        padding-right: 0;
+    }
+
+    .container {
+        min-width: 0;
+        width: 80%;
+    }
+
+    .sign-in-form{
+        gap: 1rem;
+    }
+
+    .sign-in-form .links{
+        display: flex;
+    }
+
+    .AddDescription_Form form, .AddDescription_Form_active form, .DeleteTodoModal form {
+        width: 75%;
+    }
+}
+
+/* // Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
+    .NAV main{
+        width: 90%;
+    }
+}
+
+/* // Large devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+    .NAV main{
+        width: 95%;
+    }
+}
+
+/* // X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { 
+    .NAV main{
+        width: 100%;
+    }
+}
+
+/* // XX-Large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) { 
+
+}

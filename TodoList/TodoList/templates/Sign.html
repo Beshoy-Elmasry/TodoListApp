@@ -1,0 +1,76 @@
+{% extends  "Base.html" %}
+
+{% block content %}
+    <div class="container">
+        <form class="sign-in-form" method="POST" action="">
+            {{form.hidden_tag()}}
+
+            <h2>Sign In</h2>
+            <div class="input-field">
+                <!-- <input type="username" id="Username" required>
+                <label for="Username">Username</label> -->
+                {% if form.username.errors %}
+                    {{ form.username(class="error") }}
+                    {% for error in form.username.errors %}
+                        <span class="ErrorText"> {{error}} </span>
+                    {% endfor %}
+                {% else %}
+                    {{ form.username }}
+                {% endif %}
+                {{ form.username.label }}
+            </div>
+
+            <div class="input-field">
+                <!-- <input type="email" id="email" required>
+                <label for="email">Email</label> -->
+                {% if form.email.errors %}
+                    {{ form.email(class="error") }}
+                    {% for error in form.email.errors %}
+                        <span class="ErrorText"> {{error}} </span>
+                    {% endfor %}
+                {% else %}
+                    {{ form.email }}
+                {% endif %}
+                {{ form.email.label }}
+            </div>
+            
+            <div class="input-field">
+                <!-- <input type="password" id="password" required>
+                <label for="password">Password</label> -->
+                {% if form.password.errors %}
+                    {{ form.password(class="error") }}
+                    {% for error in form.password.errors %}
+                        <span class="ErrorText"> {{error}} </span>
+                    {% endfor %}
+                {% else %}
+                    {{ form.password }}
+                {% endif %}
+                {{ form.password.label }}
+            </div>
+
+            <div class="input-field">
+                <!-- <input type="password" id="Confirm_password" required>
+                <label for="Confirm_password">Confirm password</label> -->
+                {% if form.confirm_password.errors %}
+                    {{ form.confirm_password(class="error") }}
+
+                    {% for error in form.confirm_password.errors %}
+                        {{ form.confirm_password.label(class="error") }}
+                        <span class="ErrorText"> {{error}} </span>
+                    {% endfor %}
+                {% else %}
+                    {{ form.confirm_password }}    
+                    {{ form.confirm_password.label }}
+                {% endif %}
+            </div>
+
+            <!-- <button type="submit" class="btn" style="margin-bottom: 2rem;">Sign In</button> -->
+                {{ form.submit(class="btn") }}
+                <div class="links">
+                    <a href="{{ url_for('Login') }}">Already Have An Account?</a>
+                </div>
+    
+        </form>
+    </div>
+    
+{% endblock content %}

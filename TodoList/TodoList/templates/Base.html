@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    {% if title  != "ToDoList" %}
+        <title>ToDoList -{{title}}</title>
+    {% else %}
+        <title> {{title}} </title>
+    {% endif %}
+
+</head>
+<body>
+    <nav class="NAV">
+        <main>
+            <div class="Logo">
+                <h2><a href="/">Beshoy</a></h2>
+            </div>
+    
+            <div class="LIContainer">
+                {% if user.is_authenticated %}
+                    <li class="logout"><a href="{{url_for('logout')}}">Logout <i class="fa fa-sign-out" style="font-size: 25px;" aria-hidden="true"></i></a></li>
+                    <!-- <li><a href="/Login">Login</a></li> -->
+                {% else %}
+                    <li><a href="{{url_for('Sign')}}">Sign</a></li>
+                    <li><a href="{{url_for('Login')}}">Login</a></li>
+                {% endif %}
+                <!-- <li><a href="#"></a></li> -->
+            </div>
+        </main>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories = true) %}
+        {% if messages %}
+            {% for category , message in messages %}
+                <div class="alert alert-{{category}}">
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% else %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}
+    {% endblock content %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <script>
+
+    // Event handler for the TodoContainer click
+    $('.TodoContainer').click(function(event) {
+        if (!$(event.target).closest('.TodoControl').length) {
+            var todoContainer = $(this).closest('.TodoContainer');
+            var todoDescription = todoContainer.find('.TodoDescription p');
+        
+            // Check if TodoDescription paragraph has content
+            if (todoDescription.text().trim().length > 0) {
+                todoContainer.toggleClass("Todo_Container_Activate");
+                console.log(todoContainer);
+            } else {
+                console.log("TodoDescription is empty.");
+            }
+        }
+    });
+
+    // Prevent the TodoControl click from propagating to the TodoContainer
+    $('.TodoControl').click(function(event) {
+        event.stopPropagation();
+    });
+
+    // Handle click on DescriptionViewer
+    $('.DescriptionViewer').click(function(event) {
+        event.stopPropagation(); // Prevent the click from propagating to the .TodoContainer
+
+        var todoContainer = $(this).closest('.TodoContainer');
+        var todoDescription = todoContainer.find('.TodoDescription p');
+
+        // Check if TodoDescription paragraph has content
+        if (todoDescription.text().trim().length > 0) {
+            todoContainer.toggleClass("Todo_Container_Activate");
+            console.log(todoContainer);
+        } else {
+            console.log("TodoDescription is empty.");
+        }
+    });
+
+
+        //$('.AddButton_Description').click(function() {
+            //$('.AddDescription_Form').addClass('AddDescription_Form_active').toggle()
+            //var id = $('.AddButton_Description').attr('id')
+           // console.log(id)
+           // var action_name = '/Todo/' + id + '/Description';
+
+            // /Todo/<int:todo_id>/Description
+            // console.log(action_name)
+            // console.log($('.AddDescription_Form form').attr('action').replace('' , action_name) )
+           // $('.AddDescription_Form form').attr('action' , action_name)
+
+           // $('.AddDescription_Form').toggleClass('AddDescription_Form_active');
+      //  });
+
+      $('.AddButton_Description').click(function() {
+        var id = $(this).attr('id');  // Use $(this) to get the ID of the clicked button
+       // console.log(id);
+        
+        var action_name = '/Todo/' + id + '/Description';
+       // console.log(action_name);
+    
+        // Update the form action attribute dynamically
+        $('.AddDescription_Form form').attr('action', action_name);
+        
+        // Toggle the form's visibility and active class
+        //$('.AddDescription_Form').toggleClass('AddDescription_Form_active');
+        $('.AddDescription_Form').addClass('AddDescription_Form_active');
+    });
+
+    $('.Exit_ADD_Form').click(function() {
+        $('.AddDescription_Form').removeClass('AddDescription_Form_active');
+    });
+
+      $('.TodoTrash').click(function() {
+        var id = $(this).attr('id');  // Use $(this) to get the ID of the clicked button
+       // console.log(id);
+        
+        var action_name = '/Todo/' + id + '/Delete';
+       // console.log(action_name);
+    
+        // Update the form action attribute dynamically
+        $('.DeleteTodoModal form').attr('action', action_name);
+        
+        // Toggle the form's visibility and active class
+        $('.DeleteTodoModal').addClass('DeleteTodoModal_active');
+    });
+
+    $('.Exit_ADD_Form').click(function() {
+        $('.DeleteTodoModal').removeClass('DeleteTodoModal_active');
+    });
+    
+    function submitPostForm(todoId) {
+        // Prevent the default action of the link
+        event.preventDefault();
+        
+        // Find the form by the todoId and submit it
+        var form = document.getElementById('postForm_' + todoId);
+        form.submit();
+    }    
+    </script> 
+</body>
+</html>

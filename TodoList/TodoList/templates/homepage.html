@@ -1,0 +1,111 @@
+{% extends  "Base.html" %}
+
+{% block content %}
+
+    <main class="MainContent">
+        <div class="AddToDo">
+            <form method="POST" action="{{ url_for('Add_Todo') }}" class="AddToDoForm">
+                <legend>Add New Todo</legend>
+                <div class="AddForm">
+                    <!-- <input type="text" placeholder="Add New ToDo" class="AddInput"> -->
+                    {% if form.title.errors %}
+                        {{ form.title(class="AddInput error" , placeholder="Add New ToDo") }}
+                    {% for error in form.title.errors %}
+                        <span class="ErrorText"> {{error}} </span>
+                    {% endfor %}
+                    {% else %}
+                        {{ form.title(placeholder="Add New ToDo" , class="AddInput") }}
+                    {% endif %}
+                    <button type="submit" name="submit" id="submit" class="AddButton" style="font-size:24px" value="Add">Add <i class="fa fa-plus"></i></button>
+                </div>
+            </form>
+        </div>
+
+        <div class="TodosContainer">
+            {% for todo in Todos %}
+                {% if todo.achived == True %}
+                    <div class="TodoContainer todo_achived">
+                        <h3 class="TodoName">{{todo.title}}</h3>
+                        {% if todo.description %}
+                            <div class="TodoDescriptionViewer">
+                                <button class="DescriptionViewer"><i class="fa fa-angle-down"></i></button>
+                            </div>
+                        {% endif %}
+                        <div class="TodoControl">
+                            <!-- <span class="tip">Add Description</span> -->
+                            <!-- <form method="POST" action="{{ url_for('Add_Description' , todo_id = todo.id) }}"> -->
+                                <button type="submit"  class="AddButton_Description" style="font-size:24px" name="description" id="{{todo.id}}"><i class="fa fa-plus"></i></button>
+                            <!-- </form> -->
+                            <button class="TodoTrue" style="font-size:24px" id="{{todo.id}}" onclick="submitPostForm({{todo.id}})"><i class="fa fa-window-close DeActive" aria-hidden="true"></i></button>
+                            <!-- Hidden form template -->
+                            <form id="postForm_{{todo.id}}" action="{{url_for('Un_Achieve_Todo', todo_id=todo.id)}}" method="POST" style="display:none;">
+                                <input type="hidden" name="todo_achived" value="{{todo.achived}}">
+                            </form>
+                            
+                            <button class="TodoTrash" style="font-size:24px" id="{{todo.id}}"><i class="fa fa-trash"></i></button>
+                        </div>
+                        {% if todo.description %}
+                            <div class="TodoDescription">
+                                <p> {{ todo.description }} </p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    {% else %}
+                        <div class="TodoContainer">
+                            <h3 class="TodoName">{{todo.title}}</h3>
+                            {% if todo.description %}
+                                <div class="TodoDescriptionViewer">
+                                    <button class="DescriptionViewer"><i class="fa fa-angle-down"></i></button>
+                                </div>
+                            {% endif %}
+                            <div class="TodoControl">
+                                <!-- <span class="tip">Add Description</span> -->
+                                <!-- <form method="POST" action="{{ url_for('Add_Description' , todo_id = todo.id) }}"> -->
+                                    <button type="submit"  class="AddButton_Description" style="font-size:24px" name="description" id="{{todo.id}}"><i class="fa fa-plus"></i></button>
+                                <!-- </form> -->
+                                <button class="TodoTrue" style="font-size:24px" id="{{todo.id}}" onclick="submitPostForm({{todo.id}})"><i class="fa fa-check" aria-hidden="true"></i></button>
+                                <!-- Hidden form template -->
+                                <form id="postForm_{{todo.id}}" action="{{url_for('Achieve_Todo', todo_id=todo.id)}}" method="POST" style="display:none;">
+                                    <input type="hidden" name="todo_achived" value="{{todo.achived}}">
+                                </form>
+                                
+                                <button class="TodoTrash" style="font-size:24px" id="{{todo.id}}"><i class="fa fa-trash"></i></button>
+                            </div>
+                            {% if todo.description %}
+                                <div class="TodoDescription">
+                                    <p> {{ todo.description }} </p>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                    {% endif %}
+            {% endfor %}
+
+        </div>
+    </main>
+
+    <div class="AddDescription_Form">
+        <form action="" method="POST" name="description_Form">
+            <!-- {{ form.hidden_key }} -->
+            <legend>Add Description <i class="fa fa-window-close Exit_ADD_Form" aria-hidden="true"></i></legend>
+            <input type="text" placeholder="Write the Description" class="Add_Description_input" name="description" id="description">
+            <!-- <input type="submit" value="Add" class="Add_Description_btn"> -->
+            <button type="submit" class="Add_Description_btn">Add</button>
+        </form>
+    </div>
+
+    <div class="DeleteTodoModal">
+        <form action="" method="POST" name="DeleteModal">
+            <!-- {{ form.hidden_key }} -->
+            <legend>Delete Todo <i class="fa fa-window-close Exit_ADD_Form" aria-hidden="true"></i></legend>
+            <!-- <input type="submit" value="Add" class="Add_Description_btn"> -->
+            <h3> Are you sure you want to Delete Todo ? </h3>
+            <div class="DeleteChoices">
+                <a href="/" class="Delete_Todo_Back_Btn">back</a>
+                <button type="submit" class="Delete_Todo_btn">Delete</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}
